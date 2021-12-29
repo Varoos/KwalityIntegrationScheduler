@@ -85,7 +85,7 @@ namespace KwalityIntegrationScheduler
                                          { "Item__Code", item["ItemCode"].ToString().Trim()},
                                          { "Description", item["Description1"].ToString().Trim()},
                                          { "Unit__Id", 24 },
-                                         { "StockAC__Id", 0 },
+                                         { "StockAC__Id", item["iSalesAccount"].ToString().Trim() },
                                          { "Quantity", Convert.ToInt32(item["Qty"].ToString().Trim()) },
                                      };
                         lstBody.Add(objBody);
@@ -151,7 +151,7 @@ namespace KwalityIntegrationScheduler
                                          { "Item__Code", item["ItemCode"].ToString().Trim()},
                                          { "Description", item["Description1"].ToString().Trim()},
                                          { "Unit__Id", 24 },
-                                         { "StockAC__Id", 0 },
+                                         { "StockAC__Id", item["iSalesAccount"].ToString().Trim() },
                                          { "Quantity", Convert.ToDecimal(item["Qty"].ToString().Trim()) },
                                      };
                         lstBody.Add(objBody);
@@ -217,7 +217,7 @@ namespace KwalityIntegrationScheduler
                                          { "Item__Code", item["ItemCode"].ToString().Trim()},
                                          { "Description", item["Description1"].ToString().Trim()},
                                          { "Unit__Id", 24 },
-                                         { "StockAC__Id", 0 },
+                                         { "StockAC__Id", item["iSalesAccount"].ToString().Trim() },
                                          { "Quantity", Convert.ToDecimal(item["Qty"].ToString().Trim()) },
                                      };
                         lstBody.Add(objBody);
@@ -284,7 +284,7 @@ namespace KwalityIntegrationScheduler
                                          { "Item__Code", item["ItemCode"].ToString().Trim()},
                                          { "Description", item["Description1"].ToString().Trim()},
                                          { "Unit__Id", 24 },
-                                         { "StockAC__Id", 0 },
+                                         { "StockAC__Id", item["iSalesAccount"].ToString().Trim() },
                                          { "Quantity", Convert.ToDecimal(item["Qty"].ToString().Trim()) },
                                      };
                         lstBody.Add(objBody);
@@ -350,7 +350,7 @@ namespace KwalityIntegrationScheduler
                                          { "Item__Code", item["ItemCode"].ToString().Trim()},
                                          { "Description", item["Description1"].ToString().Trim()},
                                          { "Unit__Id", 24 },
-                                         { "StockAC__Id", 0 },
+                                         { "StockAC__Id", item["iSalesAccount"].ToString().Trim() },
                                          { "Quantity", Convert.ToDecimal(item["Qty"].ToString().Trim()) },
                                      };
                         lstBody.Add(objBody);
@@ -416,7 +416,7 @@ namespace KwalityIntegrationScheduler
                                          { "Item__Code", item["ItemCode"].ToString().Trim()},
                                          { "Description", item["Description1"].ToString().Trim()},
                                          { "Unit__Id", 24 },
-                                         { "StockAC__Id", 0 },
+                                         { "StockAC__Id", item["iSalesAccount"].ToString().Trim() },
                                          { "Quantity", Convert.ToDecimal(item["Qty"].ToString().Trim()) },
                                      };
                         lstBody.Add(objBody);
@@ -494,7 +494,7 @@ namespace KwalityIntegrationScheduler
                                          { "Item__Code", item["ItemCode"].ToString().Trim()},
                                          { "Description", item["Description1"].ToString().Trim()},
                                          { "Unit__Id", 24 },
-                                         { "StockAC__Id", 0 },
+                                         { "StockAC__Id", item["iSalesAccount"].ToString().Trim() },
                                          { "Quantity", Convert.ToDecimal(item["Qty"].ToString().Trim()) },
                                      };
                         lstBody.Add(objBody);
