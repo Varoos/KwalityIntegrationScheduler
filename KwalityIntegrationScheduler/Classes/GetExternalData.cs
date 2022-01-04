@@ -47,31 +47,47 @@ namespace KwalityIntegrationScheduler
 
         public static DataSet GetData(string Query)
         {
-            con.Open();
-            SqlCommand cmd = new SqlCommand(Query, con);
-            SqlDataAdapter da = new SqlDataAdapter(cmd);
-            DataSet ds = new DataSet();
-            da.Fill(ds);
-            DataSet dst = ds;
-            con.Close();
-            return dst;
+            try
+            {
+                SqlConnection con = new SqlConnection(connection);
+                con.Open();
+                SqlCommand cmd = new SqlCommand(Query, con);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataSet ds = new DataSet();
+                da.Fill(ds);
+                con.Close();
+                return ds;
+            }
+            catch (Exception ex)
+            {
+                BL_Registry.SetLog(ex.ToString());
+                return null;
+            }
         }
 
 
         public static int Update(string Vouc)
         {
-            int result = 0;
-            using (SqlConnection connect = new SqlConnection(connection))
+            try
             {
-                string sql = $"{Vouc}";
-                using (SqlCommand command = new SqlCommand(sql, connect))
+                int result = 0;
+                using (SqlConnection connect = new SqlConnection(connection))
                 {
-                    connect.Open();
-                    result = command.ExecuteNonQuery();
-                    connect.Close();
+                    string sql = $"{Vouc}";
+                    using (SqlCommand command = new SqlCommand(sql, connect))
+                    {
+                        connect.Open();
+                        result = command.ExecuteNonQuery();
+                        connect.Close();
+                    }
                 }
+                return result;
             }
-            return result;
+            catch (Exception ex)
+            {
+                BL_Registry.SetLog(ex.ToString());
+                return -1;
+            }
         }
     }
 }
