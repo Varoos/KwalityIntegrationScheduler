@@ -59,6 +59,9 @@ namespace KwalityIntegrationScheduler
                 Receipts_PIC();
                 Receipts_KIF();
                 Receipts_TB();
+                PDCReceipts_PIC();
+                PDCReceipts_KIF();
+                PDCReceipts_TB();
             }
             catch (Exception ex)
             {
@@ -1680,6 +1683,280 @@ namespace KwalityIntegrationScheduler
                             else
                             {
                                 BL_Registry.SetLog("Receipts_TB FOCUS_WINIT DB Updation failed with DocNo=" + docno);
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+        private void PDCReceipts_PIC()
+        {
+            DataSet dsPIC = GetExternalData.getFn("getPDCReceiptsPIC");
+            if (dsPIC.Tables.Count > 0)
+            {
+                BL_Registry.SetLog("getPDCReceiptsPIC" + dsPIC.Tables.Count.ToString());
+                string docno = "";
+                foreach (DataRow Pic in dsPIC.Tables[0].Rows)
+                {
+                    docno = Pic["DocumentNo"].ToString().Trim();
+                    BL_Registry.SetLog("docno" + docno);
+                    string idate = Pic["intDate"].ToString().Trim();
+                    string CashBankAC__Name = Pic["CashBankAC"].ToString().Trim();
+                    string RouteCode = Pic["Salesman"].ToString().Trim();
+                    string Narration = Pic["Narration"].ToString().Trim();
+                    string Grp = Pic["Grp"].ToString().Trim();
+                    string sChequeNo = Pic["ChequeNo"].ToString().Trim();
+                    string CustomerAc = Pic["CustomerAC"].ToString().Trim();
+                    string currencyId = Pic["currencyId"].ToString().Trim();
+                    Hashtable header = new Hashtable
+                                     {
+                                         { "DocNo", Pic["DocumentNo"].ToString().Trim() },
+                                         { "Date", Convert.ToInt32(idate)},
+                                         { "CashBankAC__Name", CashBankAC__Name},
+                                         { "Company Master__Id", 3 },
+                                         { "Route__Code", RouteCode },
+                                         { "sNarration", Narration },
+                                         { "Group Customer Master__Name", Grp },
+                                         { "sChequeNo", sChequeNo },
+                                         { "Currency__Id", currencyId },
+                                         { "Salesman__Code", RouteCode }
+                                     };
+                    BL_Registry.SetLog("PDCReceipts_PIC header Data ready");
+                    List<Hashtable> lstBody = new List<Hashtable>();
+                    DataRow[] rows = dsPIC.Tables[1].Select("DocumentNo = '" + docno.Trim() + "'");
+                    BL_Registry.SetLog("PDCReceipts_PIC item rows count" + rows.Count().ToString());
+                    foreach (DataRow item in rows)
+                    {
+                        List<Hashtable> listbillRef = new List<Hashtable>();
+                        Hashtable billRef = new Hashtable();
+                        billRef.Add("CustomerId", item["customerid"].ToString().Trim());
+                        billRef.Add("Amount", Convert.ToDecimal(item["Amount"].ToString().Trim()));
+                        billRef.Add("reftype", 2);
+                        billRef.Add("Reference", item["InvoiceNumber"].ToString().Trim());
+                        listbillRef.Add(billRef);
+                        Hashtable objBody = new Hashtable
+                                     {
+                                         { "DocNo", item["DocumentNo"].ToString().Trim() },
+                                         { "Amount", Convert.ToDecimal(item["Amount"].ToString().Trim()) },
+                                         { "Reference", listbillRef },
+                                         { "Account__Id", item["customerid"].ToString().Trim() },
+                                     };
+                        lstBody.Add(objBody);
+                    }
+                    BL_Registry.SetLog("PDCReceipts_PIC Body Data ready");
+                    var postingData1 = new PostingData();
+                    postingData1.data.Add(new Hashtable { { "Header", header }, { "Body", lstBody } });
+                    string sContent1 = JsonConvert.SerializeObject(postingData1);
+                    BL_Registry.SetLog("PDCReceipts_PIC Content" + sContent1);
+                    string err1 = "";
+
+                    string Url1 = baseUrl + "/Transactions/Vouchers/Post-Dated Receipts";
+                    BL_Registry.SetLog("PDCReceipts_PIC post url" + Url1);
+                    var response1 = Focus8API.Post(Url1, sContent1, sessionID, ref err1);
+                    if (response1 != null)
+                    {
+                        BL_Registry.SetLog("PDCReceipts_PIC posting Response" + response1.ToString());
+                        var responseData1 = JsonConvert.DeserializeObject<APIResponse.PostResponse>(response1);
+                        if (responseData1.result == -1)
+                        {
+                            BL_Registry.SetLog(" PDCReceipts_PIC posting Response failed" + responseData1.result.ToString());
+                            BL_Registry.SetLog("PDCReceipts_PIC PDCReceipts Entry Posted Failed with DocNo: " + docno);
+                            BL_Registry.SetLog2(response1 + "\n " + " PDCReceipts_PIC PDCReceipts Entry Posted Failed with DocNo: " + docno + " \n Error Message : " + responseData1.message + "\n " + err1);
+                        }
+                        else
+                        {
+                            BL_Registry.SetLog(" PDCReceipts_PIC PDCReceipts Entry Posted Successfully with DocNo: " + docno);
+                            int d = GetExternalData.setFn("setPDCReceiptsPIC", docno);
+                            if (d != 0)
+                            {
+                                BL_Registry.SetLog(" PDCReceipts_PIC FOCUS_WINIT DB updation successed with DocNo = " + docno);
+                            }
+                            else
+                            {
+                                BL_Registry.SetLog(" PDCReceipts_PIC FOCUS_WINIT DB Updation failed with DocNo=" + docno);
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+        private void PDCReceipts_KIF()
+        {
+            DataSet dsKIF = GetExternalData.getFn("getPDCReceiptsKIF");
+            if (dsKIF.Tables.Count > 0)
+            {
+                BL_Registry.SetLog("getPDCReceiptsKIF" + dsKIF.Tables.Count.ToString());
+                string docno = "";
+                foreach (DataRow KIF in dsKIF.Tables[0].Rows)
+                {
+                    docno = KIF["DocumentNo"].ToString().Trim();
+                    BL_Registry.SetLog("docno" + docno);
+                    string idate = KIF["intDate"].ToString().Trim();
+                    string CashBankAC__Name = KIF["CashBankAC"].ToString().Trim();
+                    string RouteCode = KIF["Salesman"].ToString().Trim();
+                    string Narration = KIF["Narration"].ToString().Trim();
+                    string Grp = KIF["Grp"].ToString().Trim();
+                    string sChequeNo = KIF["ChequeNo"].ToString().Trim();
+                    string CustomerAc = KIF["CustomerAC"].ToString().Trim();
+                    string currencyId = KIF["currencyId"].ToString().Trim();
+                    Hashtable header = new Hashtable
+                                     {
+                                         { "DocNo", KIF["DocumentNo"].ToString().Trim() },
+                                         { "Date", Convert.ToInt32(idate)},
+                                         { "CashBankAC__Name", CashBankAC__Name},
+                                         { "Company Master__Id", 3 },
+                                         { "Route__Code", RouteCode },
+                                         { "sNarration", Narration },
+                                         { "Group Customer Master__Name", Grp },
+                                         { "sChequeNo", sChequeNo },
+                                         { "Currency__Id", currencyId },
+                                         { "Salesman__Code", RouteCode }
+                                     };
+                    List<Hashtable> lstBody = new List<Hashtable>();
+                    DataRow[] rows = dsKIF.Tables[1].Select("DocumentNo = '" + docno.Trim() + "'");
+                    foreach (DataRow item in rows)
+                    {
+                        List<Hashtable> listbillRef = new List<Hashtable>();
+                        Hashtable billRef = new Hashtable();
+                        billRef.Add("CustomerId", item["customerid"].ToString().Trim());
+                        billRef.Add("Amount", Convert.ToDecimal(item["Amount"].ToString().Trim()));
+                        billRef.Add("reftype", 2);
+                        billRef.Add("Reference", item["InvoiceNumber"].ToString().Trim());
+                        listbillRef.Add(billRef);
+                        Hashtable objBody = new Hashtable
+                                     {
+                                         { "DocNo", item["DocumentNo"].ToString().Trim() },
+                                         { "Amount", Convert.ToDecimal(item["Amount"].ToString().Trim()) },
+                                         { "Reference", listbillRef },
+                                         { "Account__Id", item["customerid"].ToString().Trim() },
+                                     };
+                        lstBody.Add(objBody);
+                    }
+                    var postingData1 = new PostingData();
+                    postingData1.data.Add(new Hashtable { { "Header", header }, { "Body", lstBody } });
+                    string sContent1 = JsonConvert.SerializeObject(postingData1);
+                    string err1 = "";
+
+                    string Url1 = baseUrl + "/Transactions/Vouchers/Post-Dated Receipts";
+                    var response1 = Focus8API.Post(Url1, sContent1, sessionID, ref err1);
+                    if (response1 != null)
+                    {
+                        BL_Registry.SetLog("posting Response" + response1.ToString());
+                        var responseData1 = JsonConvert.DeserializeObject<APIResponse.PostResponse>(response1);
+                        if (responseData1.result == -1)
+                        {
+                            BL_Registry.SetLog("posting Response failed" + responseData1.result.ToString());
+                            BL_Registry.SetLog("PDCReceipts Entry Posted Failed with DocNo: " + docno);
+                            BL_Registry.SetLog2(response1 + "\n " + "PDCReceipts Entry Posted Failed with DocNo: " + docno + " \n Error Message : " + responseData1.message + "\n " + err1);
+                        }
+                        else
+                        {
+                            BL_Registry.SetLog("PDCReceipts Entry Posted Successfully with DocNo: " + docno);
+                            int d = GetExternalData.setFn("setPDCReceiptsKIF", docno);
+                            if (d != 0)
+                            {
+                                BL_Registry.SetLog(" PDCReceipts_KIF FOCUS_WINIT DB updation successed with DocNo = " + docno);
+                            }
+                            else
+                            {
+                                BL_Registry.SetLog(" PDCReceipts_KIF FOCUS_WINIT DB Updation failed with DocNo=" + docno);
+                            }
+                        }
+                    }
+                }
+
+            }
+        }
+
+        private void PDCReceipts_TB()
+        {
+            DataSet dsTB = GetExternalData.getFn("getPDCReceiptsTB");
+            if (dsTB.Tables.Count > 0)
+            {
+                BL_Registry.SetLog("getPDCReceiptsTB" + dsTB.Tables.Count.ToString());
+                string docno = "";
+                foreach (DataRow TB in dsTB.Tables[0].Rows)
+                {
+                    docno = TB["DocumentNo"].ToString().Trim();
+                    BL_Registry.SetLog("docno" + docno);
+                    string idate = TB["intDate"].ToString().Trim();
+                    string CashBankAC__Name = TB["CashBankAC"].ToString().Trim();
+                    string RouteCode = TB["Salesman"].ToString().Trim();
+                    string Narration = TB["Narration"].ToString().Trim();
+                    string Grp = TB["Grp"].ToString().Trim();
+                    string sChequeNo = TB["ChequeNo"].ToString().Trim();
+                    string CustomerAc = TB["CustomerAC"].ToString().Trim();
+                    string currencyId = TB["currencyId"].ToString().Trim();
+                    Hashtable header = new Hashtable
+                                     {
+                                         { "DocNo", TB["DocumentNo"].ToString().Trim() },
+                                         { "Date", Convert.ToInt32(idate)},
+                                         { "CashBankAC__Name", CashBankAC__Name},
+                                         { "Company Master__Id", 3 },
+                                         { "Route__Code", RouteCode },
+                                         { "sNarration", Narration },
+                                         { "Group Customer Master__Name", Grp },
+                                         { "sChequeNo", sChequeNo },
+                                         { "Currency__Id", currencyId },
+                                         { "Salesman__Code", RouteCode }
+                                     };
+                    BL_Registry.SetLog("PDCReceipts_TB header Data ready");
+                    List<Hashtable> lstBody = new List<Hashtable>();
+                    DataRow[] rows = dsTB.Tables[1].Select("DocumentNo = '" + docno.Trim() + "'");
+                    BL_Registry.SetLog("PDCReceipts_TB item rows count" + rows.Count().ToString());
+                    foreach (DataRow item in rows)
+                    {
+                        List<Hashtable> listbillRef = new List<Hashtable>();
+                        Hashtable billRef = new Hashtable();
+                        billRef.Add("CustomerId", item["customerid"].ToString().Trim());
+                        billRef.Add("Amount", Convert.ToDecimal(item["Amount"].ToString().Trim()));
+                        billRef.Add("reftype", 2);
+                        billRef.Add("Reference", item["InvoiceNumber"].ToString().Trim());
+                        listbillRef.Add(billRef);
+                        Hashtable objBody = new Hashtable
+                                     {
+                                         { "DocNo", item["DocumentNo"].ToString().Trim() },
+                                         { "Amount", Convert.ToDecimal(item["Amount"].ToString().Trim()) },
+                                         { "Reference", listbillRef },
+                                         { "Account__Id", item["customerid"].ToString().Trim() },
+                                     };
+                        lstBody.Add(objBody);
+                    }
+                    BL_Registry.SetLog("PDCReceipts_TB Body Data ready");
+                    var postingData1 = new PostingData();
+                    postingData1.data.Add(new Hashtable { { "Header", header }, { "Body", lstBody } });
+                    string sContent1 = JsonConvert.SerializeObject(postingData1);
+                    BL_Registry.SetLog("PDCReceipts_TB Content" + sContent1);
+                    string err1 = "";
+
+                    string Url1 = baseUrl + "/Transactions/Vouchers/Post-Dated Receipts";
+                    BL_Registry.SetLog("PDCReceipts_TB post url" + Url1);
+                    var response1 = Focus8API.Post(Url1, sContent1, sessionID, ref err1);
+                    if (response1 != null)
+                    {
+                        BL_Registry.SetLog("PDCReceipts_TB posting Response" + response1.ToString());
+                        var responseData1 = JsonConvert.DeserializeObject<APIResponse.PostResponse>(response1);
+                        if (responseData1.result == -1)
+                        {
+                            BL_Registry.SetLog("PDCReceipts_TB posting Response failed" + responseData1.result.ToString());
+                            BL_Registry.SetLog("PDCReceipts_TB PDCReceipts Entry Posted Failed with DocNo: " + docno);
+                            BL_Registry.SetLog2(response1 + "\n " + " PDCReceipts_TB PDCReceipts Entry Posted Failed with DocNo: " + docno + " \n Error Message : " + responseData1.message + "\n " + err1);
+                        }
+                        else
+                        {
+                            BL_Registry.SetLog("PDCReceipts_TB PDCReceipts Entry Posted Successfully with DocNo: " + docno);
+                            int d = GetExternalData.setFn("setPDCReceiptsTB", docno);
+                            if (d != 0)
+                            {
+                                BL_Registry.SetLog("PDCReceipts_TB FOCUS_WINIT DB updation successed with DocNo = " + docno);
+                            }
+                            else
+                            {
+                                BL_Registry.SetLog("PDCReceipts_TB FOCUS_WINIT DB Updation failed with DocNo=" + docno);
                             }
                         }
                     }
