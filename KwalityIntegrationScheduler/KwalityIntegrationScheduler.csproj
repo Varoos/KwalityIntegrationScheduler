@@ -12,6 +12,22 @@
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <PublishUrl>D:\Focus\KwalityIceCream\KwalityIntegrationScheduler\PublishedFiles\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>2</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <PublishWizardCompleted>true</PublishWizardCompleted>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -32,45 +48,28 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ManifestCertificateThumbprint>A525FC7ABCAD10C96D45CE6354B1756779913F65</ManifestCertificateThumbprint>
+  </PropertyGroup>
+  <PropertyGroup>
+    <ManifestKeyFile>KwalityIntegrationScheduler_TemporaryKey.pfx</ManifestKeyFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <GenerateManifests>true</GenerateManifests>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignManifests>true</SignManifests>
+  </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Focus.Common.DataStructs">
-      <HintPath>C:\inetpub\wwwroot\Focus.Security.Web\bin\Focus.Common.DataStructs.dll</HintPath>
+    <Reference Include="KwalityIntegrationLibrary">
+      <HintPath>..\..\KwalityIntegrationLibrary\KwalityIntegrationLibrary\bin\Debug\KwalityIntegrationLibrary.dll</HintPath>
     </Reference>
-    <Reference Include="Focus.Company.DataStructs">
-      <HintPath>C:\inetpub\wwwroot\Focus.Security.Web\bin\Focus.Company.DataStructs.dll</HintPath>
-    </Reference>
-    <Reference Include="Focus.DatabaseFactory">
-      <HintPath>C:\inetpub\wwwroot\Focus.Security.Web\bin\Focus.DatabaseFactory.dll</HintPath>
-    </Reference>
-    <Reference Include="Focus.HRMS.DS">
-      <HintPath>C:\inetpub\wwwroot\Focus.Security.Web\bin\Focus.HRMS.DS.dll</HintPath>
-    </Reference>
-    <Reference Include="Focus.Masters.DataStructs">
-      <HintPath>C:\inetpub\wwwroot\Focus.Security.Web\bin\Focus.Masters.DataStructs.dll</HintPath>
-    </Reference>
-    <Reference Include="Focus.RD.DataStructs">
-      <HintPath>C:\inetpub\wwwroot\Focus.Security.Web\bin\Focus.RD.DataStructs.dll</HintPath>
-    </Reference>
-    <Reference Include="Focus.Security.DataStructs">
-      <HintPath>C:\inetpub\wwwroot\Focus.Security.Web\bin\Focus.Security.DataStructs.dll</HintPath>
-    </Reference>
-    <Reference Include="Focus.TranSettings.DataStructs">
-      <HintPath>C:\inetpub\wwwroot\Focus.Security.Web\bin\Focus.TranSettings.DataStructs.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Common, Version=6.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <HintPath>..\packages\EnterpriseLibrary.Common.6.0.1304.0\lib\NET45\Microsoft.Practices.EnterpriseLibrary.Common.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.EnterpriseLibrary.Data">
-      <HintPath>C:\inetpub\wwwroot\Focus.Security.Web\bin\Microsoft.Practices.EnterpriseLibrary.Data.dll</HintPath>
-    </Reference>
-    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
-      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    <Reference Include="Newtonsoft.Json, Version=6.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\KwalityIntegrationLibrary\KwalityIntegrationLibrary\bin\Debug\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
-    <Reference Include="System.Configuration.ConfigurationManager, Version=5.0.0.0, Culture=neutral, PublicKeyToken=cc7b13ffcd2ddd51, processorArchitecture=MSIL">
-      <HintPath>..\packages\System.Configuration.ConfigurationManager.5.0.0\lib\net461\System.Configuration.ConfigurationManager.dll</HintPath>
-    </Reference>
     <Reference Include="System.Core" />
     <Reference Include="System.Data.OracleClient" />
     <Reference Include="System.Net" />
@@ -101,14 +100,6 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Classes\APIResponse.cs" />
-    <Compile Include="Classes\BL_Configdata.cs" />
-    <Compile Include="Classes\BL_Registry.cs" />
-    <Compile Include="Classes\ClsDeserialization.cs" />
-    <Compile Include="Classes\Error.cs" />
-    <Compile Include="Classes\Focus8API.cs" />
-    <Compile Include="Classes\GetExternalData.cs" />
-    <Compile Include="Classes\PostingData.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -129,6 +120,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="KwalityIntegrationScheduler_TemporaryKey.pfx" />
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -142,6 +134,18 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.7.2">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.7.2 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

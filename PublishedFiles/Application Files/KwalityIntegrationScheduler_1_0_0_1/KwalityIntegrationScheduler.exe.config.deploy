@@ -1,0 +1,38 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<configuration>
+    <startup> 
+        <supportedRuntime version="v4.0" sku=".NETFramework,Version=v4.7.2" />
+    </startup>
+	<appSettings>
+		<add key="Interval" value="01" />
+		<add key="CompanyId" value="396" />
+		<add key="StartTime" value="05:00 AM"/>
+		<add key="StartTime2" value="09:00 AM"/>
+		<add key="ClientSettingsProvider.ServiceUri" value="" />
+		<add key="ScreenNames" value="Stock Transfer Issue - VAN,Stock Transfer Return - VAN,Sales Invoice - VAN,Sales Return - VAN,Damage Stock,Receipts,Post-Dated Receipts" />
+	</appSettings>
+  <runtime>
+    <assemblyBinding xmlns="urn:schemas-microsoft-com:asm.v1">
+      <dependentAssembly>
+        <assemblyIdentity name="Newtonsoft.Json" publicKeyToken="30ad4fe6b2a6aeed" culture="neutral" />
+        <bindingRedirect oldVersion="0.0.0.0-13.0.0.0" newVersion="13.0.0.0" />
+      </dependentAssembly>
+    </assemblyBinding>
+  </runtime>
+	<system.serviceModel>
+		<bindings>
+			<wsHttpBinding>
+				<binding name="WSHttpBinding_ICompanyService" />
+			</wsHttpBinding>
+		</bindings>
+		<client>
+			<endpoint address="http://localhost/Focus8Library/CompanyService.svc/WSHttpCompany"
+                binding="wsHttpBinding" bindingConfiguration="WSHttpBinding_ICompanyService"
+                contract="ServiceReference1.ICompanyService" name="WSHttpBinding_ICompanyService">
+				<identity>
+					<dns value="localhost" />
+				</identity>
+			</endpoint>
+		</client>
+	</system.serviceModel>
+</configuration>
